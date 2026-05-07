@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InboxIQ — Reclaim the hours your team loses to email</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #FBF9F4;
+    --bg-warm: #F5F1E8;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-faint: #8C8C8C;
+    --accent: #0F4C40;
+    --accent-soft: #E8F0EE;
+    --hot: #E25822;
+    --line: #E8E2D5;
+    --line-strong: #C9C2B0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; letter-spacing: -0.01em; }
+  .italic { font-style: italic; }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(251, 249, 244, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+    z-index: 100;
+  }
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+  }
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .logo span { color: var(--accent); font-style: italic; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary { background: var(--ink); color: var(--bg); }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(15, 76, 64, 0.25); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+  .btn-ghost:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .btn-hot { background: var(--hot); color: white; }
+  .btn-hot:hover { background: #c43d0d; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(226, 88, 34, 0.3); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 80px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -300px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(15, 76, 64, 0.08), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 6px 14px;
+    background: var(--accent-soft);
+    border-radius: 999px;
+  }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(46px, 7vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    max-width: 950px;
+    margin-bottom: 28px;
+  }
+  .hero h1 .accent {
+    color: var(--accent);
+    font-style: italic;
+    position: relative;
+    display: inline-block;
+  }
+  .hero h1 .accent::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: rgba(226, 88, 34, 0.18);
+    z-index: -1;
+  }
+  .hero p.lede {
+    font-size: 21px;
+    color: var(--ink-soft);
+    max-width: 660px;
+    margin-bottom: 36px;
+    line-height: 1.5;
+  }
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .hero-ctas .btn { padding: 16px 28px; font-size: 15px; }
+
+  /* ---------- LOOM VIDEO ---------- */
+  .video-section {
+    padding: 0 0 100px;
+  }
+  .video-frame {
+    position: relative;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    box-shadow: 0 30px 80px rgba(26, 26, 26, 0.12), 0 8px 20px rgba(26, 26, 26, 0.06);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .video-frame:hover { transform: translateY(-4px); }
+  .video-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: linear-gradient(135deg, #0F4C40, #1a1a1a);
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+  .video-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(226, 88, 34, 0.18), transparent 60%);
+  }
+  .play-btn {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    transition: all 0.3s;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+  .play-btn::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 22px solid var(--ink);
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    margin-left: 6px;
+  }
+  .video-placeholder:hover .play-btn { transform: scale(1.08); background: white; }
+  .video-placeholder h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    margin-bottom: 8px;
+    z-index: 1;
+    font-weight: 400;
+  }
+  .video-placeholder p {
+    font-size: 15px;
+    opacity: 0.85;
+    z-index: 1;
+  }
+
+  /* ---------- SECTION DEFAULTS ---------- */
+  section { padding: 90px 0; }
+  .section-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  h2.section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 5vw, 58px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    max-width: 800px;
+    font-weight: 400;
+  }
+  h2.section-title .italic { color: var(--accent); }
+  .section-lede {
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 660px;
+    margin-bottom: 56px;
+  }
+
+  /* ---------- PROBLEM/STATS ---------- */
+  .problem {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 24px;
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .problem::before {
+    content: '';
+    position: absolute;
+    bottom: -200px;
+    left: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(226, 88, 34, 0.15), transparent 70%);
+    border-radius: 50%;
+  }
+  .problem .section-eyebrow { color: var(--hot); }
+  .problem h2 { color: var(--bg); }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    margin-top: 50px;
+    position: relative;
+  }
+  .stat-card {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 22px;
+  }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--bg);
+    margin-bottom: 12px;
+  }
+  .stat-num .small { font-size: 32px; opacity: 0.7; }
+  .stat-label {
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.78);
+    margin-bottom: 10px;
+  }
+  .stat-source {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.04em;
+    font-style: italic;
+  }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .step {
+    position: relative;
+    padding: 36px 32px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: white;
+    transition: all 0.3s;
+  }
+  .step:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 16px 40px rgba(15, 76, 64, 0.08);
+  }
+  .step-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 60px;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+  .step h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 26px;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+  .step p { color: var(--ink-soft); font-size: 15px; }
+
+  /* ---------- CATEGORIES (NEW SECTION) ---------- */
+  .categories {
+    background: var(--bg-warm);
+    border-radius: 24px;
+    padding: 80px 60px;
+  }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .cat-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px;
+    transition: all 0.3s;
+  }
+  .cat-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 12px 32px rgba(15, 76, 64, 0.07);
+  }
+  .cat-team {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cat-card h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .cat-card .pain {
+    font-size: 14px;
+    color: var(--ink-faint);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .cat-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cat-tag {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .cat-tag.urgent { background: #FEEEE6; color: var(--hot); }
+
+  /* ---------- CAPABILITIES ---------- */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .feature {
+    background: var(--bg);
+    padding: 36px 30px;
+    transition: background 0.3s;
+  }
+  .feature:hover { background: white; }
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  .feature h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 23px;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+  .feature p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; }
+
+  /* ---------- DEPLOY ---------- */
+  .deploy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .deploy-card {
+    background: var(--bg);
+    padding: 32px 26px;
+  }
+  .deploy-card h4 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .deploy-card .sub {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .deploy-card p { color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
+
+  /* ---------- IMPACT ---------- */
+  .impact {
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 24px;
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .impact::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 70%);
+    border-radius: 50%;
+  }
+  .impact h2 { color: var(--bg); }
+  .impact .section-eyebrow { color: rgba(255, 255, 255, 0.7); }
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    margin-top: 44px;
+    position: relative;
+  }
+  .impact-card {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 28px;
+  }
+  .impact-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 80px;
+    line-height: 1;
+    color: var(--bg);
+    margin-bottom: 14px;
+  }
+  .impact-num .small { font-size: 36px; opacity: 0.75; }
+  .impact-num .italic { font-style: italic; color: rgba(255, 255, 255, 0.85); }
+  .impact-label { font-size: 15px; line-height: 1.5; opacity: 0.85; margin-bottom: 8px; }
+  .impact-source { font-size: 11px; opacity: 0.6; font-style: italic; letter-spacing: 0.04em; }
+
+  /* ---------- FAQ ---------- */
+  .faq-grid { max-width: 880px; margin: 0 auto; }
+  details {
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0;
+    cursor: pointer;
+  }
+  details summary {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    font-weight: 400;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--ink);
+    gap: 16px;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after {
+    content: '+';
+    font-size: 26px;
+    color: var(--accent);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p {
+    margin-top: 14px;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    line-height: 1.65;
+    max-width: 720px;
+  }
+
+  /* ---------- FINAL CTA ---------- */
+  .final-cta {
+    text-align: center;
+    padding: 100px 32px;
+    background: var(--bg-warm);
+    border-radius: 24px;
+    margin: 80px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(38px, 5.5vw, 70px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    margin: 0 auto 22px;
+    font-weight: 400;
+  }
+  .final-cta h2 .italic { color: var(--accent); }
+  .final-cta p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 50px 0 36px;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 36px;
+  }
+  .foot-grid h5 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .foot-grid a {
+    display: block;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color 0.2s;
+  }
+  .foot-grid a:hover { color: var(--accent); }
+  .foot-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  .sources {
+    margin-top: 24px;
+    padding: 18px 22px;
+    background: var(--bg-warm);
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--ink-faint);
+    line-height: 1.7;
+  }
+  .sources strong { color: var(--ink-soft); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .stats-grid, .features-grid, .impact-grid, .cat-grid,
+    .deploy-grid, .steps, .foot-grid { grid-template-columns: 1fr; }
+    .deploy-grid, .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-links a:not(.btn) { display: none; }
+    .problem, .impact, .categories, .final-cta { padding: 56px 24px; }
+  }
+
+  /* ---------- ANIMATIONS ---------- */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fade-up.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap nav-inner">
+    <div class="logo">Inbox<span>IQ</span></div>
+    <div class="nav-links">
+      <a href="#video">Watch demo</a>
+      <a href="#problem">The problem</a>
+      <a href="#categories">Categories</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#demo" class="btn btn-primary">Book a demo →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">An intelligence layer for your inbox</span>
+    <h1>
+      Reclaim the <span class="accent">11 hours</span> a week your team loses to email.
+    </h1>
+    <p class="lede">
+      Knowledge workers spend <strong>28% of their workweek</strong> reading and answering email — roughly 11 hours of every 40 (McKinsey Global Institute). InboxIQ classifies, drafts, and prioritizes your team's email so they spend their days running the business, not typing replies to it.
+    </p>
+    <div class="hero-ctas">
+      <a href="#demo" class="btn btn-hot">Book a 20-minute demo →</a>
+      <a href="#video" class="btn btn-ghost">Watch product demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- LOOM VIDEO -->
+<section class="video-section" id="video">
+  <div class="wrap">
+    <div class="video-frame">
+      <!--
+        ─── REPLACE THIS BLOCK WITH YOUR LOOM EMBED ───
+        Get the embed code from Loom: Share → Embed → copy the <iframe>
+        It looks like:  <iframe src="https://www.loom.com/embed/XXXXXXX" allowfullscreen></iframe>
+        Paste it inside this <div class="video-frame"> instead of the placeholder div below.
+      -->
+      <div class="video-placeholder" onclick="alert('Replace this placeholder with your Loom embed code. Instructions in the HTML.')">
+        <div class="play-btn"></div>
+        <h3>See InboxIQ in action</h3>
+        <p>3 minutes · Walk-through of triage, drafting, and one-click sending</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM / STATS -->
+<section id="problem">
+  <div class="wrap">
+    <div class="problem">
+      <div class="section-eyebrow">The cost of inbox overload</div>
+      <h2 class="section-title">Email isn't a productivity tool anymore. It's a productivity tax.</h2>
+      <p class="section-lede" style="color: rgba(255,255,255,0.78)">
+        Every research source from the last decade points the same direction: email volume is rising, response expectations are tightening, and the cost of falling behind is now measurable in dollars and customers.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">28<span class="small">%</span></div>
+          <div class="stat-label">of the workweek spent reading and answering email</div>
+          <div class="stat-source">McKinsey Global Institute</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">117</div>
+          <div class="stat-label">emails the average knowledge worker receives every day</div>
+          <div class="stat-source">Microsoft Work Trend Index 2025</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2<span class="small">min</span></div>
+          <div class="stat-label">average gap between interruptions during the workday — 275 a day</div>
+          <div class="stat-source">Microsoft Work Trend Index 2025</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">$1.2<span class="small">T</span></div>
+          <div class="stat-label">lost annually by U.S. businesses to ineffective communication</div>
+          <div class="stat-source">Grammarly &amp; The Harris Poll</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">23<span class="small">min</span></div>
+          <div class="stat-label">to fully refocus after each email-driven interruption</div>
+          <div class="stat-source">Dr. Gloria Mark, UC Irvine</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">89<span class="small">%</span></div>
+          <div class="stat-label">of customers expect an email reply within one hour</div>
+          <div class="stat-source">Toister Performance Solutions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">12<span class="small">h 10m</span></div>
+          <div class="stat-label">average time companies actually take to respond</div>
+          <div class="stat-source">SuperOffice Benchmark Study</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">48<span class="small">%</span></div>
+          <div class="stat-label">of employees describe their work as "chaotic and fragmented"</div>
+          <div class="stat-source">Microsoft Work Trend Index 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="wrap">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-title">Three quiet steps. <span class="italic">Hours back every day.</span></h2>
+    <p class="section-lede">
+      InboxIQ runs in the background, classifying every incoming email and preparing replies for the ones that need them. Your team reviews — they don't react.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Connect</h3>
+        <p>Securely connect Gmail, Outlook, or any IMAP mailbox in under two minutes. Single sign-on, role-based access, and audit logs come standard.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Triage</h3>
+        <p>Our AI classifies each message into the categories that matter to your team, scores urgency, extracts deadlines and key entities, and drafts a reply when one is warranted.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Approve</h3>
+        <p>Review the day's prepared replies on one screen. Edit if needed, approve, and send — every message threaded into the original conversation correctly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES (NEW) -->
+<section id="categories">
+  <div class="wrap">
+    <div class="categories">
+      <div class="section-eyebrow">Categories built for your team</div>
+      <h2 class="section-title">A sales inbox isn't a support inbox. <span class="italic">We don't pretend otherwise.</span></h2>
+      <p class="section-lede">
+        Your categories aren't just labels — they shape what the AI prioritizes, what it drafts, and how urgency is scored. Below are the category sets we deploy by default for the most common teams. All of them are fully customizable.
+      </p>
+
+      <div class="cat-grid">
+        <div class="cat-card">
+          <div class="cat-team">For Sales Teams</div>
+          <h3>Pipeline-aware triage</h3>
+          <p class="pain">Speed-to-lead under 5 minutes makes a rep 21× more likely to qualify a lead — so we surface inbound first, every time. <em>(Lead Response Management Study, Dr. James Oldroyd / MIT)</em></p>
+          <div class="cat-tags">
+            <span class="cat-tag urgent">Inbound Lead</span>
+            <span class="cat-tag">Demo Request</span>
+            <span class="cat-tag">Pricing Inquiry</span>
+            <span class="cat-tag">Stalled Deal</span>
+            <span class="cat-tag">Follow-up Needed</span>
+            <span class="cat-tag">Contract / Procurement</span>
+          </div>
+        </div>
+
+        <div class="cat-card">
+          <div class="cat-team">For Customer Support</div>
+          <h3>Sentiment + urgency on every ticket</h3>
+          <p class="pain">89% of customers expect a reply within an hour, but most companies take 12+ hours. We flag the hot ones and draft from your knowledge base. <em>(Toister Performance Solutions; SuperOffice)</em></p>
+          <div class="cat-tags">
+            <span class="cat-tag urgent">Escalation / Complaint</span>
+            <span class="cat-tag">Bug Report</span>
+            <span class="cat-tag">Refund Request</span>
+            <span class="cat-tag">Account Issue</span>
+            <span class="cat-tag">Feature Request</span>
+            <span class="cat-tag">General Inquiry</span>
+          </div>
+        </div>
+
+        <div class="cat-card">
+          <div class="cat-team">For Recruiting Teams</div>
+          <h3>Never lose a great candidate to inbox lag</h3>
+          <p class="pain">Most recruiters give up after 1.3 contact attempts; great candidates need follow-up within hours. We track every conversation to its conclusion. <em>(Forbes / Lead Response Management Study)</em></p>
+          <div class="cat-tags">
+            <span class="cat-tag urgent">Strong Candidate</span>
+            <span class="cat-tag">New Application</span>
+            <span class="cat-tag">Interview Confirmation</span>
+            <span class="cat-tag">Offer Response</span>
+            <span class="cat-tag">Reference Request</span>
+            <span class="cat-tag">Recruiter Outreach</span>
+          </div>
+        </div>
+
+        <div class="cat-card">
+          <div class="cat-team">For Finance &amp; Operations</div>
+          <h3>Vendor mail, contracts, and approvals — sorted</h3>
+          <p class="pain">Knowledge workers spend ~30% of their day searching for information that's buried in email threads. We extract amounts, deadlines, and parties on every message. <em>(IDC research)</em></p>
+          <div class="cat-tags">
+            <span class="cat-tag urgent">Approval Required</span>
+            <span class="cat-tag">Vendor Invoice</span>
+            <span class="cat-tag">Contract for Review</span>
+            <span class="cat-tag">Compliance Alert</span>
+            <span class="cat-tag">Internal Request</span>
+            <span class="cat-tag">Audit / Disclosure</span>
+          </div>
+        </div>
+
+        <div class="cat-card">
+          <div class="cat-team">For Executives &amp; Founders</div>
+          <h3>Your AI chief of staff for the inbox</h3>
+          <p class="pain">Executives often exceed 15 hours a week on email — more than a full workday lost to triage and reply. <em>(McKinsey; cloudHQ 2025)</em></p>
+          <div class="cat-tags">
+            <span class="cat-tag urgent">Board / Investor</span>
+            <span class="cat-tag">Direct Report</span>
+            <span class="cat-tag">Key Client</span>
+            <span class="cat-tag">Scheduling Request</span>
+            <span class="cat-tag">Speaking / PR</span>
+            <span class="cat-tag">Personal</span>
+          </div>
+        </div>
+
+        <div class="cat-card">
+          <div class="cat-team">Custom</div>
+          <h3>Or build your own taxonomy</h3>
+          <p class="pain">Whether you're a law firm with matter-based categories, a clinic triaging patient communications, or a real-estate team sorting leads by listing — we adapt the prompts to your actual workflow.</p>
+          <div class="cat-tags">
+            <span class="cat-tag">Your category 1</span>
+            <span class="cat-tag">Your category 2</span>
+            <span class="cat-tag">Your category 3</span>
+            <span class="cat-tag" style="background:#fff; border:1px dashed var(--line-strong); color: var(--ink-faint);">+ unlimited</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section id="capabilities">
+  <div class="wrap">
+    <div class="section-eyebrow">What's inside</div>
+    <h2 class="section-title">An entire inbox operations team, <span class="italic">in one product.</span></h2>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Smart Triage</h3>
+        <p>Custom categories tuned per team, with urgency scoring and a confidence threshold you can tune.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✏️</div>
+        <h3>AI Drafting</h3>
+        <p>Replies in your voice — formal for clients, warm for teammates. Calibrated against your sent folder over time.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🏷️</div>
+        <h3>Entity Extraction</h3>
+        <p>Deadlines, names, companies, dollar amounts — extracted automatically so nothing important slips through.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⭐</div>
+        <h3>VIP Detection</h3>
+        <p>Mark senders that always matter. Their messages skip the queue and surface at the top of the day.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📤</div>
+        <h3>One-Click Send</h3>
+        <p>Approved drafts thread back into the conversation with proper headers — no broken replies, no orphans.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🧹</div>
+        <h3>Bulk Actions</h3>
+        <p>Archive every newsletter, unsubscribe from a vendor, or sweep promo email — across hundreds of messages at once.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPLOY OPTIONS -->
+<section>
+  <div class="wrap">
+    <div class="section-eyebrow">Deployment</div>
+    <h2 class="section-title">Run it however your business <span class="italic">actually works.</span></h2>
+    <p class="section-lede">
+      Different teams have different security, compliance, and infrastructure needs. We meet you where you are — from a frictionless cloud setup to a fully white-labeled deployment in your own environment.
+    </p>
+    <div class="deploy-grid">
+      <div class="deploy-card">
+        <div class="sub">Cloud</div>
+        <h4>Managed SaaS</h4>
+        <p>Up and running in minutes. We handle infrastructure, updates, and uptime. Best for teams who want to start fast.</p>
+      </div>
+      <div class="deploy-card">
+        <div class="sub">Hybrid</div>
+        <h4>Your data, our intelligence</h4>
+        <p>Email content stays inside your perimeter; intelligence runs in our cloud over encrypted summaries. The middle path.</p>
+      </div>
+      <div class="deploy-card">
+        <div class="sub">On-prem</div>
+        <h4>In your environment</h4>
+        <p>Deploy InboxIQ on your own servers or private cloud. Full control over data residency, model choice, and access policies.</p>
+      </div>
+      <div class="deploy-card">
+        <div class="sub">Custom</div>
+        <h4>White-label &amp; custom builds</h4>
+        <p>Your branding, your categories, your domain. Custom integrations with internal systems on a shared engineering plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT (industry benchmarks, sourced) -->
+<section>
+  <div class="wrap">
+    <div class="impact">
+      <div class="section-eyebrow">The opportunity</div>
+      <h2 class="section-title">Where the research says the upside is.</h2>
+      <p class="section-lede" style="color: rgba(255,255,255,0.85)">
+        The numbers below come directly from peer-reviewed and industry research — they're the benchmarks that establish what's possible when communication workflows are streamlined with AI.
+      </p>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="impact-num">20–25<span class="small">%</span></div>
+          <div class="impact-label">productivity gain available to companies that streamline email and knowledge-sharing workflows.</div>
+          <div class="impact-source">McKinsey Global Institute</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-num">21<span class="italic">×</span></div>
+          <div class="impact-label">more likely to qualify a lead when responding within 5 minutes vs. 30 minutes.</div>
+          <div class="impact-source">Lead Response Management Study, Dr. James Oldroyd</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-num">$12.5<span class="small">K</span></div>
+          <div class="impact-label">in productivity loss per employee, per year, attributed to ineffective communication.</div>
+          <div class="impact-source">Grammarly &amp; The Harris Poll</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <div class="section-eyebrow">Common questions</div>
+    <h2 class="section-title" style="text-align: center; margin: 0 auto 56px;">
+      Things teams ask <span class="italic">before they sign.</span>
+    </h2>
+    <div class="faq-grid">
+      <details>
+        <summary>How quickly will my team see results?</summary>
+        <p>Most teams report measurable time savings within the first week. Voice-and-tone calibration takes about 14 days to reach its best quality; after that, drafts are usable as-is for roughly 75% of common email types. Given that knowledge workers reclaim ~11 hours a week of email time at full productivity (McKinsey baseline), payback typically lands within the first month.</p>
+      </details>
+      <details>
+        <summary>Which email providers do you support?</summary>
+        <p>Gmail (Workspace and personal), Microsoft 365 (Outlook), and any IMAP-compatible mailbox. We also support shared inboxes (e.g. <em>support@</em>, <em>billing@</em>) with assignment routing.</p>
+      </details>
+      <details>
+        <summary>Can we deploy this on our own infrastructure?</summary>
+        <p>Yes. We offer cloud, hybrid (your data perimeter, our intelligence layer), and full on-premise deployments. Enterprise customers can also bring their own model — we support OpenAI, Anthropic, Azure OpenAI, AWS Bedrock, and self-hosted models like Llama and Qwen.</p>
+      </details>
+      <details>
+        <summary>Will the AI ever send an email without my approval?</summary>
+        <p>Never, by default. Every draft requires a human approval before send — that's the central safety guarantee. Enterprise plans can configure auto-send rules for narrow categories (e.g. "send acknowledgments automatically for invoices under $500") with full audit trails.</p>
+      </details>
+      <details>
+        <summary>How do we customize the categories for our team?</summary>
+        <p>Start with one of our defaults (Sales, Customer Support, Recruiting, Finance, Executive) and modify, or build a taxonomy from scratch with your team. Categories define how the AI classifies, drafts, and prioritizes — anything expressible as a prompt is configurable per team. A typical custom configuration takes one 60-minute working session with our team.</p>
+      </details>
+      <details>
+        <summary>What about training and onboarding?</summary>
+        <p>Onboarding is included on all plans. Implementation includes a setup call, custom prompt tuning for your categories, voice calibration on a sample of your sent folder, and a 30-day success milestone review.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta" id="demo">
+  <h2>Stop reading email. <span class="italic">Start running the business.</span></h2>
+  <p>20-minute demo, tailored to your team's actual inbox. No prep work needed on your side — just bring three real questions about your workflow.</p>
+  <a href="mailto:hello@inboxiq.com" class="btn btn-hot" style="padding: 18px 32px; font-size: 16px;">Book your demo →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom: 12px;">Inbox<span>IQ</span></div>
+        <p>An intelligence layer for your inbox. Built for teams who treat time like the asset it is.</p>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#categories">Categories</a>
+        <a href="#video">Watch demo</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#">About</a>
+        <a href="mailto:hello@inboxiq.com">Contact</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+    <div class="sources">
+      <strong>Research cited on this page:</strong>
+      McKinsey Global Institute, <em>The Social Economy: Unlocking value through social technologies</em>; Microsoft <em>Work Trend Index 2025 Annual Report</em> (31,000 workers across 31 markets);
+      Grammarly &amp; The Harris Poll, <em>State of Business Communication 2022–2024</em>; Dr. Gloria Mark, UC Irvine, research on attention and interruption;
+      Dr. James Oldroyd, MIT / InsideSales.com, <em>Lead Response Management Study</em> (15,000 leads, 100,000 attempts);
+      Toister Performance Solutions email response expectations survey; SuperOffice email response benchmark study;
+      IDC research on knowledge-worker information retrieval; Forbes / Lead Response Management Study on contact attempts.
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 InboxIQ Labs · Made for teams who hate email.</span>
+      <span>San Francisco · Bengaluru · Remote</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('section .wrap > *, .step, .feature, .cat-card, .impact-card, .stat-card, .deploy-card').forEach(el => {
+    el.classList.add('fade-up');
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
