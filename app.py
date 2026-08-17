@@ -68,12 +68,17 @@ st.set_page_config(
 init_db()
 
 # ---- Custom CSS ----------------------------------------------------------
+# NOTE: this whole block must be ONE unbroken HTML element with no blank
+# lines inside <style>...</style> — Streamlit's markdown renderer treats a
+# blank line as the end of the raw-HTML block and dumps everything after it
+# onto the page as literal text instead of applying it as CSS. Font loading
+# uses @import (not a separate <link>) for the same reason: a <link> tag
+# ahead of <style> makes the parser treat them as one block that still ends
+# at the first blank line.
 st.markdown(
     """
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 :root {
     --accent-1: #667eea;
     --accent-2: #764ba2;
@@ -83,13 +88,10 @@ st.markdown(
     --surface: #ffffff;
     --surface-soft: #fafafa;
 }
-
 html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
-
 .block-container { padding-top: 1.5rem; padding-bottom: 2rem; max-width: 1400px; }
 #MainMenu, footer, header { visibility: hidden; }
-
-/* ---- Hero ---- */
+/* Hero */
 .hero {
     background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
     color: white;
@@ -112,8 +114,7 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.22);
 }
-
-/* ---- KPI cards ---- */
+/* KPI cards */
 [data-testid="stMetricValue"] { font-size: 1.85rem; font-weight: 800; color: var(--ink); }
 [data-testid="stMetricLabel"] { font-size: 0.75rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
 [data-testid="stMetric"] {
@@ -125,20 +126,17 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
     transition: box-shadow 0.2s, transform 0.2s;
 }
 [data-testid="stMetric"]:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.07); transform: translateY(-1px); }
-
-/* ---- Table ---- */
+/* Table */
 [data-testid="stDataFrame"] {
     border: 1px solid var(--line);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
-
-/* ---- Sidebar ---- */
+/* Sidebar */
 [data-testid="stSidebar"] { background: var(--surface-soft); border-right: 1px solid var(--line); }
 [data-testid="stSidebar"] hr { margin: 1rem 0; }
-
-/* ---- Buttons ---- */
+/* Buttons */
 .stButton > button {
     border-radius: 8px;
     font-weight: 600;
@@ -150,11 +148,9 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
     border: none;
     box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
 }
-
-/* ---- Filter bar ---- */
+/* Filter bar */
 h5, .stMarkdown h5 { color: var(--ink-soft); font-weight: 700; letter-spacing: 0.03em; }
-
-/* ---- Detail panel ---- */
+/* Detail panel */
 .detail-header {
     background: linear-gradient(180deg, var(--surface-soft) 0%, var(--surface) 100%);
     border: 1px solid var(--line);
@@ -163,8 +159,7 @@ h5, .stMarkdown h5 { color: var(--ink-soft); font-weight: 700; letter-spacing: 0
     margin: 1rem 0;
     box-shadow: 0 2px 10px rgba(0,0,0,0.03);
 }
-
-/* ---- Status pills (used via st.markdown in the detail view) ---- */
+/* Status pills (used via st.markdown in the detail view) */
 .pill {
     display: inline-block;
     padding: 0.22rem 0.7rem;
@@ -173,8 +168,7 @@ h5, .stMarkdown h5 { color: var(--ink-soft); font-weight: 700; letter-spacing: 0
     font-weight: 700;
     letter-spacing: 0.02em;
 }
-
-/* ---- Empty state ---- */
+/* Empty state */
 .empty-state {
     text-align: center;
     padding: 4.5rem 2rem;
