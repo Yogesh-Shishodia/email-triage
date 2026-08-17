@@ -352,21 +352,37 @@ def get_graph():
 # ---------- Top-level helper ------------------------------------------------
 
 def process_email(email: dict) -> dict:
-    """Run pre-filter then the full graph. Returns DB-ready dict."""
-    quick = quick_classify(email)
-    if quick is not None:
-        logger.info(
-            "Pre-filtered %s → %s (still generating a draft)",
-            email["email_id"][:10], quick["category"],
-        )
+    """Run pre-filter then the graph. Returns DB-ready dict.
 
-    initial: EmailState = {
+    Pre-filtered emails skip the triage + analysis LLM calls entirely (the
+    category/urgency/summary are already known) but still go through the
+    drafting node, since a reply is still useful for prefiltered mail
+    (e.g. a decline for Marketing/Spam).
+    """
+    quick = quick_classify(email)
+
+    base: EmailState = {
         "email_id": email["email_id"],
         "subject": email["subject"],
         "sender": email["sender"],
         "body": email.get("body", ""),
     }
-    final = get_graph().invoke(initial)
+
+    if quick is not None:
+        logger.info(
+            "Pre-filtered %s → %s (still generating a draft)",
+            email["email_id"][:10], quick["category"],
+        )
+        state: EmailState = {
+            **base,
+            "category": quick["category"],
+            "urgency": quick["urgency"],
+            "analysis": quick["analysis"],
+        }
+        final = {**state, **drafting_node(state)}
+    else:
+        final = get_graph().invoke(base)
+
     analysis = final.get("analysis") or {}
     return {
         **email,

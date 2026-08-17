@@ -70,70 +70,120 @@ init_db()
 # ---- Custom CSS ----------------------------------------------------------
 st.markdown(
     """
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+:root {
+    --accent-1: #667eea;
+    --accent-2: #764ba2;
+    --ink: #1f2937;
+    --ink-soft: #6b7280;
+    --line: #e5e7eb;
+    --surface: #ffffff;
+    --surface-soft: #fafafa;
+}
+
+html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
+
 .block-container { padding-top: 1.5rem; padding-bottom: 2rem; max-width: 1400px; }
 #MainMenu, footer, header { visibility: hidden; }
 
+/* ---- Hero ---- */
 .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
     color: white;
-    padding: 1.5rem 2rem;
-    border-radius: 14px;
+    padding: 1.75rem 2.25rem;
+    border-radius: 16px;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 18px rgba(102, 126, 234, 0.25);
+    box-shadow: 0 8px 28px rgba(102, 126, 234, 0.28);
 }
-.hero h1 { margin: 0; font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; }
-.hero p { margin: 0.4rem 0 0 0; opacity: 0.92; font-size: 1rem; }
-.hero .badges { margin-top: 0.85rem; }
+.hero h1 { margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+.hero p { margin: 0.45rem 0 0 0; opacity: 0.94; font-size: 1.02rem; }
+.hero .badges { margin-top: 1rem; }
 .hero .badge {
     display: inline-block;
-    background: rgba(255,255,255,0.2);
-    padding: 0.3rem 0.75rem;
+    background: rgba(255,255,255,0.18);
+    padding: 0.32rem 0.85rem;
     border-radius: 999px;
     font-size: 0.78rem;
+    font-weight: 500;
     margin-right: 0.4rem;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.22);
 }
 
-[data-testid="stMetricValue"] { font-size: 1.75rem; font-weight: 700; }
-[data-testid="stMetricLabel"] { font-size: 0.78rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
+/* ---- KPI cards ---- */
+[data-testid="stMetricValue"] { font-size: 1.85rem; font-weight: 800; color: var(--ink); }
+[data-testid="stMetricLabel"] { font-size: 0.75rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
 [data-testid="stMetric"] {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 0.85rem 1rem;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s, transform 0.2s;
 }
+[data-testid="stMetric"]:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.07); transform: translateY(-1px); }
 
+/* ---- Table ---- */
 [data-testid="stDataFrame"] {
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
 
-[data-testid="stSidebar"] { background: #fafafa; }
+/* ---- Sidebar ---- */
+[data-testid="stSidebar"] { background: var(--surface-soft); border-right: 1px solid var(--line); }
 [data-testid="stSidebar"] hr { margin: 1rem 0; }
 
-.stButton > button { border-radius: 8px; font-weight: 500; }
-
-.detail-header {
-    background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    margin: 1rem 0;
+/* ---- Buttons ---- */
+.stButton > button {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.stButton > button:hover { transform: translateY(-1px); }
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    border: none;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
 }
 
+/* ---- Filter bar ---- */
+h5, .stMarkdown h5 { color: var(--ink-soft); font-weight: 700; letter-spacing: 0.03em; }
+
+/* ---- Detail panel ---- */
+.detail-header {
+    background: linear-gradient(180deg, var(--surface-soft) 0%, var(--surface) 100%);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.4rem 1.7rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+/* ---- Status pills (used via st.markdown in the detail view) ---- */
+.pill {
+    display: inline-block;
+    padding: 0.22rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* ---- Empty state ---- */
 .empty-state {
     text-align: center;
-    padding: 4rem 2rem;
-    background: white;
-    border-radius: 14px;
-    border: 2px dashed #e5e7eb;
+    padding: 4.5rem 2rem;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 2px dashed var(--line);
 }
-.empty-state h2 { color: #1f2937; }
-.empty-state p { color: #6b7280; font-size: 1.05rem; }
+.empty-state h2 { color: var(--ink); }
+.empty-state p { color: var(--ink-soft); font-size: 1.05rem; }
 </style>
 """,
     unsafe_allow_html=True,
@@ -374,7 +424,7 @@ with fc2:
     sel_cats = st.multiselect(
         "Category",
         options=CATEGORIES + ["Unprocessed"],
-        default=CATEGORIES,
+        default=CATEGORIES + ["Unprocessed"],
         label_visibility="collapsed",
         placeholder="All categories",
     )
@@ -432,7 +482,9 @@ event = st.dataframe(
     column_config={
         "received_at": st.column_config.TextColumn("Received", width="medium"),
         "category": st.column_config.TextColumn("Category", width="medium"),
-        "urgency": st.column_config.NumberColumn("Urg.", format="%d", width="small"),
+        "urgency": st.column_config.ProgressColumn(
+            "Urgency", format="%d", width="small", min_value=0, max_value=5
+        ),
         "sender": st.column_config.TextColumn("Sender", width="medium"),
         "subject": st.column_config.TextColumn("Subject", width="large"),
         "summary": st.column_config.TextColumn("AI Summary", width="large"),
@@ -452,6 +504,14 @@ if sel_rows:
     is_sent = _is_set(row.get("sent_at"))
     received_str = pd.to_datetime(row["received_at"]).strftime("%b %d, %Y at %H:%M")
 
+    status_text = _status_display(row)
+    status_style = {
+        "✓ Sent": ("#DCFCE7", "#15803D"),
+        "✓ Approved": ("#DBEAFE", "#1D4ED8"),
+        "• Draft": ("#FEF3C7", "#B45309"),
+        "—": ("#F3F4F6", "#6B7280"),
+    }[status_text]
+
     st.divider()
     st.markdown(
         f"""
@@ -460,6 +520,9 @@ if sel_rows:
         <div style='flex:1; min-width:0;'>
             <span style='color:{cat_color}; font-size:0.78rem; font-weight:700; letter-spacing:0.05em;'>
                 {cat_icon} {cat.upper()}
+            </span>
+            <span class="pill" style='background:{status_style[0]}; color:{status_style[1]}; margin-left:0.5rem;'>
+                {status_text}
             </span>
             <h3 style='margin:0.4rem 0 0.3rem 0; word-break:break-word;'>{row.get('subject') or '(no subject)'}</h3>
             <p style='margin:0; color:#6b7280;'>
@@ -593,6 +656,6 @@ if sel_rows:
                 )
         else:
             st.info(
-                "No draft generated for this category. Drafts are only created "
-                "for actionable categories."
+                "No draft available — generation may have failed for this "
+                "email. Try **♻️ Re-process all** in the sidebar."
             )

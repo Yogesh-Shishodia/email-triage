@@ -23,12 +23,12 @@ gmail_engine.py ──► Gmail API (read + send via gmail.modify)
 
 ### How emails are processed
 
-1. **Pre-filter (free):** Rule-based check on sender + headers. Catches obvious newsletters and promo blasts without any LLM call. Conservative — defers to the LLM whenever in doubt.
-2. **Triage node (LLM):** Few-shot classifier → category + urgency.
-3. **Analysis node (LLM):** Structured extraction → summary + entities.
-4. **Drafting node (LLM, conditional):** Only runs for `Job Related` or `Important/Action Required`.
+1. **Pre-filter (free):** Rule-based check on sender + headers. Catches obvious newsletters and promo blasts without any LLM call — these skip triage and analysis entirely. Conservative — defers to the LLM whenever in doubt.
+2. **Triage node (LLM):** Few-shot classifier → category + urgency. Skipped for pre-filtered emails.
+3. **Analysis node (LLM):** Structured extraction → summary + entities. Skipped for pre-filtered emails.
+4. **Drafting node (LLM):** Runs for every email, pre-filtered or not — the prompt has per-category guidance, including a polite decline for `Marketing/Spam` and a minimal note for `Newsletters`.
 
-Step 1 typically removes 50–70% of an inbox before any LLM is invoked. The remaining emails are processed across `MAX_WORKERS` threads (default 3).
+Step 1 typically removes 50–70% of an inbox from the triage + analysis calls (2 of the 3 LLM calls) before the rest run across `MAX_WORKERS` threads (default 3).
 
 ## Setup
 
